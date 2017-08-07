@@ -1,8 +1,10 @@
 module Models exposing (..)
 
+import RemoteData exposing (WebData)
+
 
 type alias Model =
-    { repositories : List Repository }
+    { repositories : WebData (List Repository) }
 
 
 type alias Repository =
@@ -11,19 +13,12 @@ type alias Repository =
     , url : String
     , description : String
     , fork : Bool
-    , mainLang : String
+    , language : String
     }
 
 
 initalModel : Model
 initalModel =
     { repositories =
-        [ { id = 12
-          , name = "Test"
-          , url = "test.com"
-          , description = "Build nice things"
-          , fork = False
-          , mainLang = "Elm"
-          }
-        ]
+        RemoteData.Loading
     }

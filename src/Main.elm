@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (Html, div, text, program)
+import Commands exposing (fetchRepos)
 import Models exposing (Model, initalModel)
 import Views exposing (..)
 import Msgs exposing (Msg)
@@ -9,7 +10,7 @@ import Update exposing (..)
 
 init : ( Model, Cmd Msg )
 init =
-    ( initalModel, Cmd.none )
+    ( initalModel, fetchRepos )
 
 
 

@@ -1,6 +1,7 @@
 module Views exposing (..)
 
 import Html exposing (Html, div, text, ul, li, p)
+import RemoteData exposing (WebData)
 import Models exposing (..)
 import Msgs exposing (Msg)
 
@@ -8,7 +9,23 @@ import Msgs exposing (Msg)
 view : Model -> Html Msg
 view model =
     div []
-        [ renderRepos model.repositories ]
+        [ maybeList model.repositories ]
+
+
+maybeList : WebData (List Repository) -> Html Msg
+maybeList response =
+    case response of
+        RemoteData.NotAsked ->
+            text ""
+
+        RemoteData.Loading ->
+            text "Loading..."
+
+        RemoteData.Success repos ->
+            renderRepos repos
+
+        RemoteData.Failure error ->
+            text (toString error)
 
 
 renderRepos : List Repository -> Html Msg
@@ -27,5 +44,5 @@ repoItem repo =
         , p [] [ text repo.url ]
         , p [] [ text repo.description ]
         , p [] [ text (toString repo.fork) ]
-        , p [] [ text repo.mainLang ]
+        , p [] [ text repo.language ]
         ]

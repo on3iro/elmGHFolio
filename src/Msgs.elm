@@ -1,5 +1,8 @@
 module Msgs exposing (..)
 
+import Models exposing (Repository)
+import RemoteData exposing (WebData)
+
 
 type Msg
-    = NoOp
+    = OnFetchRepos (WebData (List Repository))
