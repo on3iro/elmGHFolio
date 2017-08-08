@@ -19,7 +19,7 @@ view model =
             , onInput Msgs.ChangeFilter
             ]
             []
-        , if not (String.isEmpty model.filter) then
+        , if not <| String.isEmpty model.filter then
             button
                 [ onClick Msgs.ClearFilter ]
                 [ text "x" ]
@@ -49,7 +49,12 @@ maybeList response filter =
 filterRepos : Filter -> List Repository -> List Repository
 filterRepos filter repos =
     List.filter
-        (\r -> String.startsWith (String.toLower filter) (String.toLower r.language))
+        (\r ->
+            r
+                |> .language
+                |> String.toLower
+                |> String.startsWith filter
+        )
         repos
 
 

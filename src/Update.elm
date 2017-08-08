@@ -17,7 +17,7 @@ update msg model =
             ( { model | description = "" }, Cmd.none )
 
         Msgs.ChangeFilter filter ->
-            ( { model | filter = filter }, Cmd.none )
+            ( { model | filter = (String.toLower filter) }, Cmd.none )
 
         Msgs.ClearFilter ->
             ( { model | filter = "" }, Cmd.none )
