@@ -15,10 +15,16 @@ view model =
         , renderDescription model.description
         , input
             [ type_ "text"
-            , placeholder "Filter"
+            , placeholder "Filter by Language"
             , onInput Msgs.ChangeFilter
             ]
             []
+        , if not (String.isEmpty model.filter) then
+            button
+                [ onClick Msgs.ClearFilter ]
+                [ text "x" ]
+          else
+            text ""
         ]
 
 
@@ -63,7 +69,11 @@ repoItem repo =
             , text (" " ++ repo.name)
             ]
         , div []
-            [ text repo.url
+            [ a
+                [ target "_blank"
+                , href repo.url
+                ]
+                [ text repo.url ]
             , if repo.fork then
                 text " fork"
               else

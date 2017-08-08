@@ -9,3 +9,4 @@ type Msg
     | ShowDescription String
     | CloseDescription
     | ChangeFilter String
+    | ClearFilter

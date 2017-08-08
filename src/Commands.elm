@@ -30,7 +30,7 @@ repoDecoder =
     decode Repository
         |> required "id" Decode.int
         |> required "name" Decode.string
-        |> required "url" Decode.string
+        |> required "html_url" Decode.string
         |> optional "description" Decode.string "No Description"
         |> required "fork" Decode.bool
         |> optional "language" Decode.string " - "

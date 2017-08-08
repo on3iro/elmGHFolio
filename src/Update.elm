@@ -18,3 +18,6 @@ update msg model =
 
         Msgs.ChangeFilter filter ->
             ( { model | filter = filter }, Cmd.none )
+
+        Msgs.ClearFilter ->
+            ( { model | filter = "" }, Cmd.none )
