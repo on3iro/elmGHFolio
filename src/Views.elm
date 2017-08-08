@@ -1,7 +1,8 @@
 module Views exposing (..)
 
 import Html exposing (..)
-import Html.Events exposing (onClick)
+import Html.Events exposing (..)
+import Html.Attributes exposing (..)
 import RemoteData exposing (WebData)
 import Models exposing (..)
 import Msgs exposing (Msg)
@@ -10,13 +11,19 @@ import Msgs exposing (Msg)
 view : Model -> Html Msg
 view model =
     div []
-        [ maybeList model.repositories
+        [ maybeList model.repositories model.filter
         , renderDescription model.description
+        , input
+            [ type_ "text"
+            , placeholder "Filter"
+            , onInput Msgs.ChangeFilter
+            ]
+            []
         ]
 
 
-maybeList : WebData (List Repository) -> Html Msg
-maybeList response =
+maybeList : WebData (List Repository) -> Filter -> Html Msg
+maybeList response filter =
     case response of
         RemoteData.NotAsked ->
             text ""
@@ -25,10 +32,19 @@ maybeList response =
             text "Loading..."
 
         RemoteData.Success repos ->
-            renderRepos repos
+            repos
+                |> filterRepos filter
+                |> renderRepos
 
         RemoteData.Failure error ->
             text (toString error)
+
+
+filterRepos : Filter -> List Repository -> List Repository
+filterRepos filter repos =
+    List.filter
+        (\r -> String.startsWith (String.toLower filter) (String.toLower r.language))
+        repos
 
 
 renderRepos : List Repository -> Html Msg

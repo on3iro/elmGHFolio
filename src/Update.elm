@@ -15,3 +15,6 @@ update msg model =
 
         Msgs.CloseDescription ->
             ( { model | description = "" }, Cmd.none )
+
+        Msgs.ChangeFilter filter ->
+            ( { model | filter = filter }, Cmd.none )
