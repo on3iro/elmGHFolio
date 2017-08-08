@@ -4,7 +4,9 @@ import RemoteData exposing (WebData)
 
 
 type alias Model =
-    { repositories : WebData (List Repository) }
+    { repositories : WebData (List Repository)
+    , description : String
+    }
 
 
 type alias Repository =
@@ -21,4 +23,5 @@ initalModel : Model
 initalModel =
     { repositories =
         RemoteData.Loading
+    , description = ""
     }

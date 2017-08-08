@@ -1,6 +1,7 @@
 module Views exposing (..)
 
-import Html exposing (Html, div, text, ul, li, p)
+import Html exposing (..)
+import Html.Events exposing (onClick)
 import RemoteData exposing (WebData)
 import Models exposing (..)
 import Msgs exposing (Msg)
@@ -9,7 +10,9 @@ import Msgs exposing (Msg)
 view : Model -> Html Msg
 view model =
     div []
-        [ maybeList model.repositories ]
+        [ maybeList model.repositories
+        , renderDescription model.description
+        ]
 
 
 maybeList : WebData (List Repository) -> Html Msg
@@ -38,11 +41,29 @@ renderRepos repositories =
 
 repoItem : Repository -> Html Msg
 repoItem repo =
-    li []
-        [ p [] [ text (toString repo.id) ]
-        , p [] [ text repo.name ]
-        , p [] [ text repo.url ]
-        , p [] [ text repo.description ]
-        , p [] [ text (toString repo.fork) ]
-        , p [] [ text repo.language ]
+    li [ onClick (Msgs.ShowDescription repo.description) ]
+        [ div []
+            [ text repo.language
+            , text (" " ++ repo.name)
+            ]
+        , div []
+            [ text repo.url
+            , if repo.fork then
+                text " fork"
+              else
+                text ""
+            ]
+        ]
+
+
+renderDescription : String -> Html Msg
+renderDescription desc =
+    div []
+        [ p [] [ text desc ]
+        , if desc /= "" then
+            button
+                [ onClick Msgs.CloseDescription ]
+                [ text "Close" ]
+          else
+            text ""
         ]

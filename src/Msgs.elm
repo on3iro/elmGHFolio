@@ -6,3 +6,5 @@ import RemoteData exposing (WebData)
 
 type Msg
     = OnFetchRepos (WebData (List Repository))
+    | ShowDescription String
+    | CloseDescription

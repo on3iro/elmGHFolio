@@ -9,3 +9,9 @@ update msg model =
     case msg of
         Msgs.OnFetchRepos response ->
             ( { model | repositories = response }, Cmd.none )
+
+        Msgs.ShowDescription desc ->
+            ( { model | description = desc }, Cmd.none )
+
+        Msgs.CloseDescription ->
+            ( { model | description = "" }, Cmd.none )
